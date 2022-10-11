@@ -7,8 +7,8 @@ import frc.robot.subsystems.Drivetrain;
 
 public class ArcadeDrive extends CommandBase {
 
-    private Joystick joystick;
-    private DifferentialDrive robotDrive;
+  private Joystick joystick;
+  private DifferentialDrive robotDrive;
 
   /**
    * Constructor for ArcadeDrive
