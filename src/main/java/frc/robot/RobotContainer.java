@@ -8,11 +8,19 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+<<<<<<< HEAD
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.subsystems.Drivetrain;
+=======
+import frc.robot.oi.drivers.JoystickDriver;
+import frc.robot.oi.drivers.LaunchpadDriver;
+import frc.robot.subsystems.ConeGrabber;
+>>>>>>> a23a5f8 (jordan's changes)
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utilities.lists.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ConeGrabberMO;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,9 +32,20 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final Joystick joystick;
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+<<<<<<< HEAD
   private final Drivetrain drivetrain;
+=======
+
+  private final frc.robot.subsystems.ConeGrabber coneGrabber = new ConeGrabber();
+
+>>>>>>> a23a5f8 (jordan's changes)
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final ArcadeDrive arcadeDrive;
+
+  private final ConeGrabberMO coneGrabberMO = new ConeGrabberMO(coneGrabber);
+
+  private final LaunchpadDriver launchpad;
+  private final JoystickDriver joystick;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -45,7 +64,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    launchpad.commandBind(new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2), launchpad::whileHeld); // LAST WORK
+
+  }
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
