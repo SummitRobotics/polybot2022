@@ -7,8 +7,8 @@ import frc.robot.utilities.lists.Ports;
 
 public class Drivetrain extends SubsystemBase {
 
-    public final CANSparkMax left = new CANSparkMax(Ports.LEFT_DRIVE, MotorType.kBrushless);
-    public final CANSparkMax right = new CANSparkMax(Ports.RIGHT_DRIVE, MotorType.kBrushless);
+    public static final CANSparkMax left = new CANSparkMax(Ports.LEFT_DRIVE, MotorType.kBrushless);
+    public static final CANSparkMax right = new CANSparkMax(Ports.RIGHT_DRIVE, MotorType.kBrushless);
 
     public Drivetrain() {
         right.setInverted(true);

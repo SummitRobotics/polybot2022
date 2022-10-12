@@ -15,6 +15,7 @@ package frc.robot.utilities.lists;
 public final class Ports {
 
     public static final int
+        JOYSTICK = 0,
         LEFT_DRIVE = 20,
         RIGHT_DRIVE = 30;
 }

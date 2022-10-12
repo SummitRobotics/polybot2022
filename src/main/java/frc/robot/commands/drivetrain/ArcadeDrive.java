@@ -19,11 +19,11 @@ public class ArcadeDrive extends CommandBase {
   public ArcadeDrive(Drivetrain drivetrain, Joystick joystick) {
 
     this.joystick = joystick;
-    robotDrive = new DifferentialDrive(drivetrain.left, drivetrain.right);
+    robotDrive = new DifferentialDrive(Drivetrain.left, Drivetrain.right);
     addRequirements(drivetrain);
   }
 
-// Called when the command is initially scheduled.
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
