@@ -24,7 +24,7 @@ public final class Ports {
 
         LAUNCHPAD_PORT = 3,
 
-        CONTROLLER_PORT = 5,
+        CONTROLLER_PORT = 0,
 
         PCM_1 = 10,
 

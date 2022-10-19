@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.PneumaticsBase;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 public class ConeGrabber extends SubsystemBase {
-    private final Solenoid clampSolenoid =
-    new Solenoid(Ports.PCM_1, PneumaticsModuleType.REVPH, Ports.SOLENOID_1);
+  //  private final Solenoid clampSolenoid =
+  //  new Solenoid(Ports.PCM_1, PneumaticsModuleType.REVPH, Ports.SOLENOID_1);
 
-    private final Solenoid liftSolenoid =
-    new Solenoid(Ports.PCM_1, PneumaticsModuleType.REVPH, Ports.SOLENOID_2);
+  //  private final Solenoid liftSolenoid =
+  //  new Solenoid(Ports.PCM_1, PneumaticsModuleType.REVPH, Ports.SOLENOID_2);
 
     private SolenoidPosition clampPosition;
 
@@ -24,12 +24,14 @@ public class ConeGrabber extends SubsystemBase {
 
     public void toggleClampSolenoid() {
         clampPosition = clampPosition == SolenoidPosition.DOWN ? SolenoidPosition.UP : SolenoidPosition.DOWN;
-        setSolenoid(clampSolenoid, clampPosition);
+        System.out.println("Clamp " + clampPosition);
+        //setSolenoid(clampSolenoid, clampPosition);
     }
 
     public void toggleLiftSolenoid() {
         liftPosition = liftPosition == SolenoidPosition.DOWN ? SolenoidPosition.UP : SolenoidPosition.DOWN;
-        setSolenoid(liftSolenoid, liftPosition);
+        //setSolenoid(liftSolenoid, liftPosition);
+        System.out.println("Lift " + clampPosition);
     }
 
     public void setSolenoid(Solenoid s, SolenoidPosition value) {

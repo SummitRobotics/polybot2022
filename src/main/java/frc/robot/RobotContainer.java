@@ -51,7 +51,7 @@ public class RobotContainer {
     coneGrabber = new ConeGrabber();
     launchPad = new LaunchpadDriver(Ports.LAUNCHPAD_PORT);
     controller = new ControllerDriver(Ports.CONTROLLER_PORT);
-    coneGrabberMO = new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2);
+    coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
     // Configure the button bindings
     setDefaultCommands();
     configureButtonBindings();
