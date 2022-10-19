@@ -8,11 +8,17 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.oi.drivers.ControllerDriver;
+import frc.robot.oi.drivers.JoystickDriver;
+import frc.robot.oi.drivers.LaunchpadDriver;
+import frc.robot.subsystems.ConeGrabber;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.utilities.lists.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.ConeGrabberMO;
+import edu.wpi.first.wpilibj.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -22,21 +28,33 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Joystick joystick;
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drivetrain drivetrain;
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem(); 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  private final Drivetrain drivetrain;
+  private final frc.robot.subsystems.ConeGrabber coneGrabber;
+
+ 
   private final ArcadeDrive arcadeDrive;
+ private final JoystickDriver joystick;
+ private final LaunchpadDriver launchPad;
+ private final ControllerDriver controller;
+  private final ConeGrabberMO coneGrabberMO;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    joystick = new Joystick(Ports.JOYSTICK);
     drivetrain = new Drivetrain();
-    arcadeDrive = new ArcadeDrive(drivetrain, joystick);
+    joystick = new JoystickDriver(Ports.JOYSTICK_PORT);
+    arcadeDrive = new ArcadeDrive(drivetrain, joystick.axisX, joystick.axisY);
+    coneGrabber = new ConeGrabber();
+    launchPad = new LaunchpadDriver(Ports.LAUNCHPAD_PORT);
+    controller = new ControllerDriver(Ports.CONTROLLER_PORT);
+    coneGrabberMO = new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2);
     // Configure the button bindings
-    configureButtonBindings();
     setDefaultCommands();
+    configureButtonBindings();
   }
 
   /**
@@ -49,6 +67,8 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
+
+    coneGrabber.setDefaultCommand(coneGrabberMO);
   }
 
   /**

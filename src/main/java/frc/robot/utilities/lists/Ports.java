@@ -4,6 +4,8 @@
 
 package frc.robot.utilities.lists;
 
+import edu.wpi.first.wpilibj.Solenoid;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,7 +17,17 @@ package frc.robot.utilities.lists;
 public final class Ports {
 
     public static final int
-        JOYSTICK = 0,
         LEFT_DRIVE = 20,
-        RIGHT_DRIVE = 30;
+        RIGHT_DRIVE = 30,
+
+        JOYSTICK_PORT = 2,
+
+        LAUNCHPAD_PORT = 3,
+
+        CONTROLLER_PORT = 5,
+
+        PCM_1 = 10,
+
+        SOLENOID_1 = 20,
+        SOLENOID_2 = 30;
 }
