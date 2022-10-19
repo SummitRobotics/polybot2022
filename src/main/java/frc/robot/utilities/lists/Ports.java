@@ -21,5 +21,5 @@ public final class Ports {
         PCM = 0,
         CLAMP_SOLENOID = 0,
         LIFT_SOLENOID = 0,
-        LAUNCHPAD = 0;
+        CONTROLLER = 0;
 }

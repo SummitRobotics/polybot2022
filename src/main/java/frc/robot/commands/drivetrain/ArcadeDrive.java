@@ -1,14 +1,15 @@
 package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.oi.inputs.OIAxis;
 import frc.robot.subsystems.Drivetrain;
 
 public class ArcadeDrive extends CommandBase {
 
-  private Joystick joystick;
   private DifferentialDrive robotDrive;
+  private OIAxis axisX;
+  private OIAxis axisY;
 
   /**
    * Constructor for ArcadeDrive
@@ -16,9 +17,10 @@ public class ArcadeDrive extends CommandBase {
    * @param drivetrain The drivetrain subsystem
    * @param joystick The joystick controlling the drivetrain
    */
-  public ArcadeDrive(Drivetrain drivetrain, Joystick joystick) {
+  public ArcadeDrive(Drivetrain drivetrain, OIAxis axisX, OIAxis axisY) {
 
-    this.joystick = joystick;
+    this.axisX = axisX;
+    this.axisY = axisY;
     robotDrive = new DifferentialDrive(Drivetrain.left, Drivetrain.right);
     addRequirements(drivetrain);
   }
@@ -30,7 +32,7 @@ public class ArcadeDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    robotDrive.arcadeDrive(-joystick.getY(), joystick.getX());
+    robotDrive.arcadeDrive(-axisY.get(), axisX.get());
   }
 
   // Called once the command ends or is interrupted.
