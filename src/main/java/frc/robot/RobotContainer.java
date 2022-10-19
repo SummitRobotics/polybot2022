@@ -28,28 +28,30 @@ import edu.wpi.first.wpilibj.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final Joystick joystick;
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drivetrain drivetrain;
-  private final frc.robot.subsystems.ConeGrabber coneGrabber = new ConeGrabber();
-
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem(); 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+
+  private final Drivetrain drivetrain;
+  private final frc.robot.subsystems.ConeGrabber coneGrabber;
+
+ 
   private final ArcadeDrive arcadeDrive;
- private final JoystickDriver joystick = new JoystickDriver(Ports.JOYSTICK_PORT);
-
- private final LaunchpadDriver launchPad = new LaunchpadDriver(Ports.LAUNCHPAD_PORT);
-
- private final ControllerDriver controller = new ControllerDriver(Ports.CONTROLLER_PORT);
-
-  private final ConeGrabberMO coneGrabberMO = new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2);
+ private final JoystickDriver joystick;
+ private final LaunchpadDriver launchPad;
+ private final ControllerDriver controller;
+  private final ConeGrabberMO coneGrabberMO;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    joystick = new Joystick(Ports.JOYSTICK);
     drivetrain = new Drivetrain();
-    arcadeDrive = new ArcadeDrive(drivetrain, joystick);
+    joystick = new JoystickDriver(Ports.JOYSTICK_PORT);
+    arcadeDrive = new ArcadeDrive(drivetrain, joystick.axisX, joystick.axisY);
+    coneGrabber = new ConeGrabber();
+    launchPad = new LaunchpadDriver(Ports.LAUNCHPAD_PORT);
+    controller = new ControllerDriver(Ports.CONTROLLER_PORT);
+    coneGrabberMO = new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2);
     // Configure the button bindings
     setDefaultCommands();
     configureButtonBindings();
@@ -65,6 +67,8 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
+
+    coneGrabber.setDefaultCommand(coneGrabberMO);
   }
 
   /**

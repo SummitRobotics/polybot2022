@@ -33,7 +33,8 @@ public class ConeGrabber extends SubsystemBase {
     }
 
     public void setSolenoid(Solenoid s, SolenoidPosition value) {
-        s.set(value == SolenoidPosition.UP);
+        System.out.println("Set solenoid: " + s.getChannel() + " - " + value);
+       // s.set(value == SolenoidPosition.UP);
     }
 
     

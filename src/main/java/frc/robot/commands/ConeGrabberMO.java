@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.oi.inputs.OIAxis;
 import frc.robot.oi.inputs.OIButton;
 import frc.robot.subsystems.ConeGrabber;
 import frc.robot.utilities.SimpleButton;
