@@ -1,32 +1,32 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+// import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utilities.lists.Ports;
+// import frc.robot.utilities.lists.Ports;
 
 public class Intake extends SubsystemBase {
-    private final Solenoid clamp =
-        new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.CLAMP_SOLENOID);
-    private final Solenoid lift =
-        new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.LIFT_SOLENOID);
+    // private final Solenoid clamp =
+        // new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.CLAMP_SOLENOID);
+    // private final Solenoid lift =
+        // new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.LIFT_SOLENOID);
     private boolean clampStatus;
     private boolean liftStatus;
 
     public Intake() {
-        clamp.set(true);
+        // clamp.set(true);
         clampStatus = true;
-        lift.set(false);
+        // lift.set(false);
         liftStatus = false;
     }
 
     public void setLift(boolean position) {
-        lift.set(position);
+        // lift.set(position);
         liftStatus = position;
     }
 
     public void setClamp(boolean position) {
-        clamp.set(position);
+        // clamp.set(position);
         clampStatus = position;
     }
 
@@ -36,5 +36,13 @@ public class Intake extends SubsystemBase {
 
     public void toggleClamp() {
         setClamp(!clampStatus);
+    }
+
+    public boolean getClampStatus() {
+        return clampStatus;
+    }
+
+    public boolean getLiftStatus() {
+        return liftStatus;
     }
 }
