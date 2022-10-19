@@ -17,5 +17,9 @@ public final class Ports {
     public static final int
         JOYSTICK = 0,
         LEFT_DRIVE = 20,
-        RIGHT_DRIVE = 30;
+        RIGHT_DRIVE = 30,
+        PCM = 0,
+        CLAMP_SOLENOID = 0,
+        LIFT_SOLENOID = 0,
+        LAUNCHPAD = 0;
 }
