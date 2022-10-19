@@ -20,6 +20,12 @@ public final class Ports {
         LEFT_DRIVE = 20,
         RIGHT_DRIVE = 30,
 
+        JOYSTICK_PORT = 2,
+
+        LAUNCHPAD_PORT = 3,
+
+        CONTROLLER_PORT = 5,
+
         PCM_1 = 10,
 
         SOLENOID_1 = 20,

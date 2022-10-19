@@ -7,10 +7,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.oi.drivers.ControllerDriver;
 import frc.robot.oi.drivers.JoystickDriver;
 import frc.robot.oi.drivers.LaunchpadDriver;
 import frc.robot.subsystems.ConeGrabber;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.utilities.lists.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.ConeGrabberMO;
 import edu.wpi.first.wpilibj.*;
@@ -29,15 +31,28 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final ConeGrabberMO coneGrabberMO = new ConeGrabberMO(coneGrabber);
+ private final JoystickDriver joystick = new JoystickDriver(Ports.JOYSTICK_PORT);
 
-  private final LaunchpadDriver launchpad;
-  private final JoystickDriver joystick;
+ private final LaunchpadDriver launchPad = new LaunchpadDriver(Ports.LAUNCHPAD_PORT);
+
+ private final ControllerDriver controller = new ControllerDriver(Ports.CONTROLLER_PORT);
+
+  private final ConeGrabberMO coneGrabberMO = new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
+    setDefaultCommands();
     configureButtonBindings();
+  }
+
+  private void setDefaultCommands() {
+    /*
+    drivetrain.setDefaultCommand(arcadeDrive);
+    intake.setDefaultCommand(new DefaultIntake(intake,conveyor, gyro));
+    conveyor.setDefaultCommand(new ConveyorAutomation(conveyor,shooter));
+    */
   }
 
   /**
@@ -47,8 +62,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    launchpad.commandBind(new ConeGrabberMO(coneGrabber, joystick.button1, joystick.button2), launchpad::whileHeld); // LAST WORK
-
+  
   }
 
   /**
@@ -60,4 +74,6 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return m_autoCommand;
   }
+
+
 }
