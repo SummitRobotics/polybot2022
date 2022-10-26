@@ -5,7 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.IntakeMO;
@@ -23,6 +25,9 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private final CommandScheduler scheduler;
+
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain;
@@ -31,18 +36,27 @@ public class RobotContainer {
   private final ArcadeDrive arcadeDrive;
   private final IntakeMO intakeMO;
   private final ControllerDriver controller;
+  private final PneumaticHub pcm;
+
+  private final Command teleInit;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    scheduler = CommandScheduler.getInstance();
     controller = new ControllerDriver(Ports.CONTROLLER);
     drivetrain = new Drivetrain();
     intake = new Intake();
     arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
     intakeMO = new IntakeMO(intake, controller.buttonA, controller.buttonB);
+    pcm = new PneumaticHub(Ports.PCM);
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
+
+    teleInit = new SequentialCommandGroup(
+      new InstantCommand(() -> pcm.enableCompressorDigital())
+    );
   }
 
   /**
@@ -56,6 +70,13 @@ public class RobotContainer {
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
     intake.setDefaultCommand(intakeMO);
+  }
+
+  /**
+   * Runs when the robot initializes in teleop mode
+   */
+  public void teleopInit() {
+    scheduler.schedule(teleInit);
   }
 
   /**

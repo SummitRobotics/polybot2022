@@ -25,9 +25,6 @@ public class IntakeMO extends CommandBase {
     SimpleButton simpleGrabButton;
     SimpleButton simpleLiftButton;
 
-    boolean previousClampStatus;
-    boolean previousLiftStatus;
-
     /**
      * Manual override for the intake.
      *
@@ -49,40 +46,29 @@ public class IntakeMO extends CommandBase {
         prioritizedLiftButton = grabButton.prioritize(10);
         simpleGrabButton = new SimpleButton(prioritizedGrabButton::get);
         simpleLiftButton = new SimpleButton(prioritizedLiftButton::get);
-        previousClampStatus = true;
-        previousLiftStatus = false;
     }
 
     @Override
     public void execute() {
         if (simpleGrabButton.get()) {
             intake.toggleClamp();
-        }
-
-        if (simpleLiftButton.get()) {
-            intake.toggleLift();
-        }
-
-        if (previousClampStatus != intake.getClampStatus()) {
-            if (intake.getClampStatus() == true) {
+            
+            if (intake.getClampStatus()) {
                 System.out.println("Clamp position is: open");
             } else {
                 System.out.println("Clamp position is: closed");
             }
-
-            previousClampStatus = intake.getClampStatus();
         }
 
-        if (previousLiftStatus != intake.getLiftStatus()) {
-            if (intake.getLiftStatus() == true) {
+        if (simpleLiftButton.get()) {
+            intake.toggleLift();
+
+            if (intake.getLiftStatus()) {
                 System.out.println("Lift position is: up");
             } else {
                 System.out.println("Lift position is: down");
             }
-
-            previousLiftStatus = intake.getLiftStatus();
         }
-
     }
 
     @Override
