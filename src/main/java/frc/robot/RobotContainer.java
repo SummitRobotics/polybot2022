@@ -5,7 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
@@ -36,7 +36,7 @@ public class RobotContainer {
   private final ArcadeDrive arcadeDrive;
   private final IntakeMO intakeMO;
   private final ControllerDriver controller;
-  private final PneumaticHub pcm;
+  private final PneumaticsControlModule pcm;
 
   private final Command teleInit;
 
@@ -49,7 +49,7 @@ public class RobotContainer {
     intake = new Intake();
     arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
     intakeMO = new IntakeMO(intake, controller.buttonA, controller.buttonB);
-    pcm = new PneumaticHub(Ports.PCM);
+    pcm = new PneumaticsControlModule(Ports.PCM);
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();

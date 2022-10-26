@@ -43,7 +43,7 @@ public class IntakeMO extends CommandBase {
     @Override
     public void initialize() {
         prioritizedGrabButton = grabButton.prioritize(10);
-        prioritizedLiftButton = grabButton.prioritize(10);
+        prioritizedLiftButton = liftButton.prioritize(10);
         simpleGrabButton = new SimpleButton(prioritizedGrabButton::get);
         simpleLiftButton = new SimpleButton(prioritizedLiftButton::get);
     }
