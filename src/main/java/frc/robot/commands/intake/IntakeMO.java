@@ -52,22 +52,12 @@ public class IntakeMO extends CommandBase {
     public void execute() {
         if (simpleGrabButton.get()) {
             intake.toggleClamp();
-            
-            if (intake.getClampStatus()) {
-                System.out.println("Clamp position is: open");
-            } else {
-                System.out.println("Clamp position is: closed");
-            }
+            System.out.println("Clamp position is: " + (intake.getClampStatus() ? "open" : "closed"));
         }
 
         if (simpleLiftButton.get()) {
             intake.toggleLift();
-
-            if (intake.getLiftStatus()) {
-                System.out.println("Lift position is: up");
-            } else {
-                System.out.println("Lift position is: down");
-            }
+            System.out.println("Lift position is: " + (intake.getLiftStatus() ? "up" : "down"));
         }
     }
 

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utilities.Functions;
 import frc.robot.utilities.lists.Ports;
 
 public class Drivetrain extends SubsystemBase {
@@ -12,5 +13,13 @@ public class Drivetrain extends SubsystemBase {
 
     public Drivetrain() {
         right.setInverted(true);
+    }
+
+    public void setLeftMotorPower(double power) {
+        left.set(Functions.clampDouble(power, 1, -1));
+    }
+
+    public void setRightMotorPower(double power) {
+        right.set(Functions.clampDouble(power, 1, -1));
     }
 }

@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drivetrain.ArcadeDrive;
+// import frc.robot.commands.intake.FullAutoIntake;
 import frc.robot.commands.intake.IntakeMO;
+// import frc.robot.devices.Lemonlight;
 import frc.robot.oi.drivers.ControllerDriver;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -37,6 +39,7 @@ public class RobotContainer {
   private final IntakeMO intakeMO;
   private final ControllerDriver controller;
   private final PneumaticsControlModule pcm;
+  // private final Lemonlight limelight;
 
   private final Command teleInit;
 
@@ -50,6 +53,7 @@ public class RobotContainer {
     arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
     intakeMO = new IntakeMO(intake, controller.buttonA, controller.buttonB);
     pcm = new PneumaticsControlModule(Ports.PCM);
+    // limelight = new Lemonlight("limelight", true, true);
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
@@ -65,7 +69,9 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    // controller.buttonX.whileHeld(new FullAutoIntake(drivetrain, intake, limelight));
+  }
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
