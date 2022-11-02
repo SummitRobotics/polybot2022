@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 // import edu.wpi.first.wpilibj.PneumaticsModuleType;
 // import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,7 +43,21 @@ public class Intake extends SubsystemBase {
         return clampStatus;
     }
 
+    public String getClampStatusString() {
+        return getClampStatus() ? "Open" : "Closed";
+    }
+
     public boolean getLiftStatus() {
         return liftStatus;
+    }
+
+    public String getLiftStatusString() {
+        return getLiftStatus() ? "Up" : "Down";
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.addStringProperty("Clamp Status", this::getClampStatusString, null);
+        builder.addStringProperty("Lift Status", this::getLiftStatusString, null);
     }
 }
