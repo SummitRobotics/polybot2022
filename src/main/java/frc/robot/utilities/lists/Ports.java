@@ -14,6 +14,7 @@ package frc.robot.utilities.lists;
  */
 public final class Ports {
 
+    // TODO: Set to correct values
     public static final int
         JOYSTICK = 0,
         LEFT_DRIVE = 20,
@@ -21,5 +22,8 @@ public final class Ports {
         PCM = 0,
         CLAMP_SOLENOID = 0,
         LIFT_SOLENOID = 0,
-        CONTROLLER = 0;
+        CONTROLLER = 0,
+        CONVEYOR = 0,
+        BOTTOM_LIMIT = 0,
+        TOP_LIMIT = 0;
 }

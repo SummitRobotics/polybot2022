@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.conveyor.ConveyorAutomation;
 // import frc.robot.commands.coneGrabber.ConeGrabberMO;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.devices.PCM;
 // import frc.robot.devices.Lemonlight;
 import frc.robot.oi.drivers.ControllerDriver;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 // import frc.robot.subsystems.ConeGrabber;
@@ -33,9 +35,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain;
+  private final Conveyor conveyor;
   // private final ConeGrabber coneGrabber;
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final ArcadeDrive arcadeDrive;
+  private final ConveyorAutomation conveyorAutomation;
   // private final ConeGrabberMO coneGrabberMO;
   private final ControllerDriver controller;
   private final PCM pcm;
@@ -49,8 +53,10 @@ public class RobotContainer {
     scheduler = CommandScheduler.getInstance();
     controller = new ControllerDriver(Ports.CONTROLLER);
     drivetrain = new Drivetrain();
+    conveyor = new Conveyor();
     // coneGrabber = new ConeGrabber();
     arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
+    conveyorAutomation = new ConveyorAutomation(conveyor);
     // coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
     pcm = new PCM();
     // limelight = new Lemonlight("limelight", true, true);
@@ -76,6 +82,7 @@ public class RobotContainer {
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
+    conveyor.setDefaultCommand(conveyorAutomation);
     // coneGrabber.setDefaultCommand(coneGrabberMO);
   }
 
