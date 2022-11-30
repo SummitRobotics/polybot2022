@@ -5,13 +5,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 // import frc.robot.commands.intake.FullAutoIntake;
 import frc.robot.commands.intake.IntakeMO;
+import frc.robot.devices.PCM;
 // import frc.robot.devices.Lemonlight;
 import frc.robot.oi.drivers.ControllerDriver;
 import frc.robot.subsystems.Drivetrain;
@@ -38,7 +39,7 @@ public class RobotContainer {
   private final ArcadeDrive arcadeDrive;
   private final IntakeMO intakeMO;
   private final ControllerDriver controller;
-  private final PneumaticsControlModule pcm;
+  private final PCM pcm;
   // private final Lemonlight limelight;
 
   private final Command teleInit;
@@ -52,14 +53,15 @@ public class RobotContainer {
     intake = new Intake();
     arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
     intakeMO = new IntakeMO(intake, controller.buttonA, controller.buttonB);
-    pcm = new PneumaticsControlModule(Ports.PCM);
+    pcm = new PCM();
     // limelight = new Lemonlight("limelight", true, true);
     // Configure the button bindings
     configureButtonBindings();
     setDefaultCommands();
 
     teleInit = new SequentialCommandGroup(
-      new InstantCommand(() -> pcm.enableCompressorDigital())
+      // new InstantCommand(() -> pcm.enableCompressorDigital()),
+      new InstantCommand(() -> initTelemetry())
     );
   }
 
@@ -83,6 +85,10 @@ public class RobotContainer {
    */
   public void teleopInit() {
     scheduler.schedule(teleInit);
+  }
+
+  public void initTelemetry() {
+    SmartDashboard.putData("PCM", pcm);
   }
 
   /**
