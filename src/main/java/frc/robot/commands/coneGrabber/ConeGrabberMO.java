@@ -1,17 +1,17 @@
-package frc.robot.commands.intake;
+package frc.robot.commands.coneGrabber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.oi.inputs.OIAxis;
 import frc.robot.oi.inputs.OIButton;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ConeGrabber;
 import frc.robot.utilities.SimpleButton;
 
 /**
- * Manual override for the intake.
+ * Manual override for the cone grabber.
  */
-public class IntakeMO extends CommandBase {
+public class ConeGrabberMO extends CommandBase {
     
-    Intake intake;
+    ConeGrabber coneGrabber;
 
     OIAxis controlAxis;
     OIAxis.PrioritizedAxis prioritizedControlAxis;
@@ -26,16 +26,16 @@ public class IntakeMO extends CommandBase {
     SimpleButton simpleLiftButton;
 
     /**
-     * Manual override for the intake.
+     * Manual override for the cone grabber.
      *
-     * @param intake the intake subsystem
-     * @param controlAxis the control axis used to control the intake motor
-     * @param controlButton the control button used to control the up/down position of the intake
+     * @param coneGrabber the cone grabber subsystem
+     * @param controlAxis the control axis used to control the coneGrabber motor
+     * @param controlButton the control button used to control the up/down position of the coneGrabber
      */
-    public IntakeMO(Intake intake, OIButton grabButton, OIButton liftButton) {
-        addRequirements(intake);
+    public ConeGrabberMO(ConeGrabber coneGrabber, OIButton grabButton, OIButton liftButton) {
+        addRequirements(coneGrabber);
 
-        this.intake = intake;
+        this.coneGrabber = coneGrabber;
         this.grabButton = grabButton;
         this.liftButton = liftButton;
     }
@@ -51,13 +51,13 @@ public class IntakeMO extends CommandBase {
     @Override
     public void execute() {
         if (simpleGrabButton.get()) {
-            intake.toggleClamp();
-            System.out.println("Clamp position is: " + (intake.getClampStatus() ? "open" : "closed"));
+            coneGrabber.toggleClamp();
+            System.out.println("Clamp position is: " + (coneGrabber.getClampStatus() ? "open" : "closed"));
         }
 
         if (simpleLiftButton.get()) {
-            intake.toggleLift();
-            System.out.println("Lift position is: " + (intake.getLiftStatus() ? "up" : "down"));
+            coneGrabber.toggleLift();
+            System.out.println("Lift position is: " + (coneGrabber.getLiftStatus() ? "up" : "down"));
         }
     }
 

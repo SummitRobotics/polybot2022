@@ -218,7 +218,7 @@ public class Lemonlight implements Sendable {
         }
         return mainList;
     }
-    /** gets an angle from a number given by custom intake code. 
+    /** gets an angle from a number given by custom coneGrabber code. 
      *
      * @param number the number to get the angle of, should be for ball tracking
      * @param isHorizontal whether or not you want it to be horizonal 

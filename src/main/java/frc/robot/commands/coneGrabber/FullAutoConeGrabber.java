@@ -1,13 +1,13 @@
-package frc.robot.commands.intake;
+package frc.robot.commands.coneGrabber;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.devices.Lemonlight;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ConeGrabber;
 import frc.robot.utilities.Functions;
 
-public class FullAutoIntake extends CommandBase {
+public class FullAutoConeGrabber extends CommandBase {
     private static final double
         DISTANCE_FROM_CONE = 0,
         MOVE_P = 0.2,
@@ -19,7 +19,7 @@ public class FullAutoIntake extends CommandBase {
 
     // subsystems
     private Drivetrain drivetrain;
-    private Intake intake;
+    private ConeGrabber coneGrabber;
 
     // devices
     private Lemonlight limelight;
@@ -34,15 +34,15 @@ public class FullAutoIntake extends CommandBase {
     private double horizontalOffset;
 
     /**
-     * Constructor for FullAutoIntake
+     * Constructor for FullAutoConeGrabber
      * 
      * @param drivetrain The drivetrain subsystem
      * @param limelight The limelight device
      */
-    public FullAutoIntake(Drivetrain drivetrain, Intake intake, Lemonlight limelight) {
+    public FullAutoConeGrabber(Drivetrain drivetrain, ConeGrabber coneGrabber, Lemonlight limelight) {
 
         this.drivetrain = drivetrain;
-        this.intake = intake;
+        this.coneGrabber = coneGrabber;
         this.limelight = limelight;
         this.movePID = new PIDController(MOVE_P, MOVE_I, MOVE_D);
         this.movePID = new PIDController(ALIGN_P, ALIGN_I, ALIGN_D);
@@ -52,7 +52,7 @@ public class FullAutoIntake extends CommandBase {
         alignPID.setTolerance(1, 1);
         alignPID.setSetpoint(0);
 
-        addRequirements(drivetrain, intake);
+        addRequirements(drivetrain, coneGrabber);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class FullAutoIntake extends CommandBase {
             drivetrain.setRightMotorPower(movePower - alignPower);
 
             if (alignPID.atSetpoint() && limelightDistanceEstimate < 3) {
-                intake.setClamp(false);
+                coneGrabber.setClamp(false);
             }
         }
 

@@ -9,15 +9,14 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.ExampleCommand;
+// import frc.robot.commands.coneGrabber.ConeGrabberMO;
 import frc.robot.commands.drivetrain.ArcadeDrive;
-// import frc.robot.commands.intake.FullAutoIntake;
-import frc.robot.commands.intake.IntakeMO;
 import frc.robot.devices.PCM;
 // import frc.robot.devices.Lemonlight;
 import frc.robot.oi.drivers.ControllerDriver;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.Intake;
+// import frc.robot.subsystems.ConeGrabber;
 import frc.robot.utilities.lists.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -34,10 +33,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain;
-  private final Intake intake;
+  // private final ConeGrabber coneGrabber;
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final ArcadeDrive arcadeDrive;
-  private final IntakeMO intakeMO;
+  // private final ConeGrabberMO coneGrabberMO;
   private final ControllerDriver controller;
   private final PCM pcm;
   // private final Lemonlight limelight;
@@ -50,9 +49,9 @@ public class RobotContainer {
     scheduler = CommandScheduler.getInstance();
     controller = new ControllerDriver(Ports.CONTROLLER);
     drivetrain = new Drivetrain();
-    intake = new Intake();
+    // coneGrabber = new ConeGrabber();
     arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
-    intakeMO = new IntakeMO(intake, controller.buttonA, controller.buttonB);
+    // coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
     pcm = new PCM();
     // limelight = new Lemonlight("limelight", true, true);
     // Configure the button bindings
@@ -72,12 +71,12 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // controller.buttonX.whileHeld(new FullAutoIntake(drivetrain, intake, limelight));
+    // controller.buttonX.whileHeld(new FullAutoconeGrabber(drivetrain, coneGrabber, limelight));
   }
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(arcadeDrive);
-    intake.setDefaultCommand(intakeMO);
+    // coneGrabber.setDefaultCommand(coneGrabberMO);
   }
 
   /**

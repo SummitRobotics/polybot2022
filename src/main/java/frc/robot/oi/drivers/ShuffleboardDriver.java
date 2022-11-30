@@ -24,7 +24,7 @@ public class ShuffleboardDriver {
             ButtonTable = NetworkTableInstance.getDefault().getTable("Buttons");
     public static ShuffleboardLEDButton
             //recordStart = new ShuffleboardLEDButton(ButtonTable.getEntry("record Start")),
-            //intake = new ShuffleboardLEDButton(ButtonTable.getEntry("record Intake")),
+            //coneGrabber = new ShuffleboardLEDButton(ButtonTable.getEntry("record coneGrabber")),
             //shoot = new ShuffleboardLEDButton(ButtonTable.getEntry("record Shoot")),
             //shift = new ShuffleboardLEDButton(ButtonTable.getEntry("record Shift"));
             //finish = new ShuffleboardLEDButton(ButtonTable.getEntry("record Stop")),
