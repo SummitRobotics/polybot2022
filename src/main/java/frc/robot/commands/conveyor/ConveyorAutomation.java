@@ -8,11 +8,17 @@ public class ConveyorAutomation extends CommandBase {
 
     private double ballCount;
     private boolean bottomLimit;
+    private boolean midLimit;
     private boolean topLimit;
-    private boolean previousBottomLimit;
+    // private boolean previousBottomLimit;
+    private boolean previousMidLimit;
     private boolean previousTopLimit;
+    private boolean loading;
 
-    private static double BELT_SPEED = 0.75;
+    private static double
+        BELT_SPEED = 0.75,
+        FUNNEL_SPEED = 0.75,
+        CAPACITY = 5;
 
     public ConveyorAutomation(Conveyor conveyor) {
         this.conveyor = conveyor;
@@ -23,31 +29,45 @@ public class ConveyorAutomation extends CommandBase {
     @Override
     public void initialize() {
         ballCount = 0;
-        previousBottomLimit = conveyor.getBottomLimit();
+        loading = false;
+        // previousBottomLimit = conveyor.getBottomLimit();
+        previousMidLimit = conveyor.getMidLimit();
         previousTopLimit = conveyor.getTopLimit();
     }
 
     @Override
     public void execute() {
         bottomLimit = conveyor.getBottomLimit();
+        midLimit = conveyor.getMidLimit();
         topLimit = conveyor.getTopLimit();
 
-        if (bottomLimit && !previousBottomLimit) {
+        // Always run the funnel motor
+        conveyor.setFunnelPower(FUNNEL_SPEED);
+
+        // Start loading a ball if the bottom limit switch is triggered and we have space
+        if (bottomLimit && ballCount < CAPACITY && !loading) {
+            loading = true;
             ballCount++;
         }
 
+        // If we're loading a ball, run the conveyor until the mid switch registers
+        if (loading) {
+            if (midLimit && !previousMidLimit) {
+                conveyor.setBeltPower(0);
+                loading = false;
+            } else {
+                conveyor.setBeltPower(BELT_SPEED);
+            }
+        }
+
+        // Reduce the count if we fired a ball
         if (!topLimit && previousTopLimit) {
             ballCount--;
         }
 
-        if (!topLimit) {
-            conveyor.setBeltPower(BELT_SPEED);
-        } else {
-            conveyor.setBeltPower(0);
-        }
-
         previousTopLimit = topLimit;
-        previousBottomLimit = bottomLimit;
+        previousMidLimit = midLimit;
+        // previousBottomLimit = bottomLimit;
         conveyor.setBallCount(ballCount);
     }
 

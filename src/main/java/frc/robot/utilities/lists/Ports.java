@@ -23,7 +23,9 @@ public final class Ports {
         CLAMP_SOLENOID = 0,
         LIFT_SOLENOID = 0,
         CONTROLLER = 0,
-        CONVEYOR = 0,
+        CONVEYOR_BELT = 0,
+        CONVEYOR_FUNNEL = 0,
         BOTTOM_LIMIT = 0,
+        MID_LIMIT = 0,
         TOP_LIMIT = 0;
 }

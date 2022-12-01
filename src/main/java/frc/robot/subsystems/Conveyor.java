@@ -11,13 +11,16 @@ import frc.robot.utilities.lists.Ports;
 
 public class Conveyor extends SubsystemBase {
     // motor
-    private final CANSparkMax belt = new CANSparkMax(Ports.CONVEYOR, MotorType.kBrushless);
+    private final CANSparkMax belt = new CANSparkMax(Ports.CONVEYOR_BELT, MotorType.kBrushless);
+    private final CANSparkMax funnel = new CANSparkMax(Ports.CONVEYOR_FUNNEL, MotorType.kBrushless);
 
     // encoder
-    private final RelativeEncoder encoder = belt.getEncoder();
+    private final RelativeEncoder beltEncoder = belt.getEncoder();
+    private final RelativeEncoder funnelEncoder = funnel.getEncoder();
 
     // sensors
     private final DigitalInput topLimit = new DigitalInput(Ports.TOP_LIMIT);
+    private final DigitalInput midLimit = new DigitalInput(Ports.MID_LIMIT);
     private final DigitalInput bottomLimit = new DigitalInput(Ports.BOTTOM_LIMIT);
 
     // ball count
@@ -34,28 +37,53 @@ public class Conveyor extends SubsystemBase {
         belt.set(power);
     }
 
-    public double getEncoderPosition() {
-        return encoder.getPosition();
+    public void setFunnelPower(double power) {
+        funnel.set(power);
+    }
+
+    public double getBeltEncoderPosition() {
+        return beltEncoder.getPosition();
+    }
+
+    public double getFunnelEncoderPosition() {
+        return funnelEncoder.getPosition();
     }
 
     public void setBeltEncoder(double position) {
-        encoder.setPosition(position);
+        beltEncoder.setPosition(position);
+    }
+
+    public void setFunnelEncoder(double position) {
+        funnelEncoder.setPosition(position);
     }
 
     public double getBeltRPM() {
-        return encoder.getVelocity();
+        return beltEncoder.getVelocity();
     }
 
-    public void zeroEncoder() {
-        encoder.setPosition(0);
+    public double getFunnelRPM() {
+        return funnelEncoder.getVelocity();
+    }
+
+    public void zeroBeltEncoder() {
+        beltEncoder.setPosition(0);
+    }
+
+    public void zeroFunnelEncoder() {
+        funnelEncoder.setPosition(0);
     }
 
     public void stop() {
         belt.stopMotor();
+        funnel.stopMotor();
     }
 
     public boolean getTopLimit() {
         return topLimit.get();
+    }
+
+    public boolean getMidLimit() {
+        return midLimit.get();
     }
 
     public boolean getBottomLimit() {
@@ -74,6 +102,7 @@ public class Conveyor extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("conveyor");
         builder.addBooleanProperty("top_limit", this::getTopLimit, null);
+        builder.addBooleanProperty("mid_limit", this::getMidLimit, null);
         builder.addBooleanProperty("bottom_limit", this::getBottomLimit, null);
         builder.addDoubleProperty("number_of_balls", this::getBallCount, null);
     }
