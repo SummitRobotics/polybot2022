@@ -27,5 +27,8 @@ public final class Ports {
         CONVEYOR_FUNNEL = 0,
         BOTTOM_LIMIT = 0,
         MID_LIMIT = 0,
-        TOP_LIMIT = 0;
+        TOP_LIMIT = 0,
+        INTAKE_MOTOR = 0,
+        INTAKE_LEFT_SOLENOID = 0,
+        INTAKE_RIGHT_SOLENOID = 0;
 }

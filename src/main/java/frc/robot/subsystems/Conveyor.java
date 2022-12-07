@@ -3,25 +3,27 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.lists.Ports;
 
 public class Conveyor extends SubsystemBase {
-    // motor
-    private final CANSparkMax belt = new CANSparkMax(Ports.CONVEYOR_BELT, MotorType.kBrushless);
-    private final CANSparkMax funnel = new CANSparkMax(Ports.CONVEYOR_FUNNEL, MotorType.kBrushless);
+    // motors
+    private final CANSparkMax
+        belt = new CANSparkMax(Ports.CONVEYOR_BELT, MotorType.kBrushless), 
+        funnel = new CANSparkMax(Ports.CONVEYOR_FUNNEL, MotorType.kBrushless);
 
-    // encoder
-    private final RelativeEncoder beltEncoder = belt.getEncoder();
-    private final RelativeEncoder funnelEncoder = funnel.getEncoder();
+    // encoders
+    private final RelativeEncoder
+        beltEncoder = belt.getEncoder(), 
+        funnelEncoder = funnel.getEncoder();
 
     // sensors
-    private final DigitalInput topLimit = new DigitalInput(Ports.TOP_LIMIT);
-    private final DigitalInput midLimit = new DigitalInput(Ports.MID_LIMIT);
-    private final DigitalInput bottomLimit = new DigitalInput(Ports.BOTTOM_LIMIT);
+    private final DigitalInput
+        topLimit = new DigitalInput(Ports.TOP_LIMIT),
+        midLimit = new DigitalInput(Ports.MID_LIMIT),
+        bottomLimit = new DigitalInput(Ports.BOTTOM_LIMIT);
 
     // ball count
     private double ballCount; 

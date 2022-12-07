@@ -7,13 +7,8 @@ public class ConveyorAutomation extends CommandBase {
     Conveyor conveyor;
 
     private double ballCount;
-    private boolean bottomLimit;
-    private boolean midLimit;
-    private boolean topLimit;
+    private boolean bottomLimit, midLimit, topLimit, previousMidLimit, previousTopLimit, loading;
     // private boolean previousBottomLimit;
-    private boolean previousMidLimit;
-    private boolean previousTopLimit;
-    private boolean loading;
 
     private static double
         BELT_SPEED = 0.75,
@@ -22,7 +17,6 @@ public class ConveyorAutomation extends CommandBase {
 
     public ConveyorAutomation(Conveyor conveyor) {
         this.conveyor = conveyor;
-
         addRequirements(conveyor);
     }
 
