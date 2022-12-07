@@ -12,12 +12,14 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.conveyor.ConveyorAutomation;
 // import frc.robot.commands.coneGrabber.ConeGrabberMO;
 import frc.robot.commands.drivetrain.ArcadeDrive;
+import frc.robot.commands.intake.IntakeAutomation;
 import frc.robot.devices.PCM;
 // import frc.robot.devices.Lemonlight;
 import frc.robot.oi.drivers.ControllerDriver;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Intake;
 // import frc.robot.subsystems.ConeGrabber;
 import frc.robot.utilities.lists.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,10 +38,9 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Drivetrain drivetrain;
   private final Conveyor conveyor;
+  private final Intake intake;
   // private final ConeGrabber coneGrabber;
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final ArcadeDrive arcadeDrive;
-  private final ConveyorAutomation conveyorAutomation;
   // private final ConeGrabberMO coneGrabberMO;
   private final ControllerDriver controller;
   private final PCM pcm;
@@ -54,9 +55,8 @@ public class RobotContainer {
     controller = new ControllerDriver(Ports.CONTROLLER);
     drivetrain = new Drivetrain();
     conveyor = new Conveyor();
+    intake = new Intake();
     // coneGrabber = new ConeGrabber();
-    arcadeDrive = new ArcadeDrive(drivetrain, controller.leftX, controller.leftY);
-    conveyorAutomation = new ConveyorAutomation(conveyor);
     // coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
     pcm = new PCM();
     // limelight = new Lemonlight("limelight", true, true);
@@ -81,8 +81,9 @@ public class RobotContainer {
   }
 
   private void setDefaultCommands() {
-    drivetrain.setDefaultCommand(arcadeDrive);
-    conveyor.setDefaultCommand(conveyorAutomation);
+    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, controller.leftX, controller.leftY));
+    conveyor.setDefaultCommand(new ConveyorAutomation(conveyor));
+    intake.setDefaultCommand(new IntakeAutomation(intake));
     // coneGrabber.setDefaultCommand(coneGrabberMO);
   }
 

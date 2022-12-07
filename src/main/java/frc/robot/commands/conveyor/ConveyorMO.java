@@ -6,8 +6,8 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.utilities.Functions;
 
 public class ConveyorMO extends CommandBase {
+    
     Conveyor conveyor;
-
     OIAxis axis1, axis2;
     OIAxis.PrioritizedAxis prioritizedAxis1, prioritizedAxis2;
     
