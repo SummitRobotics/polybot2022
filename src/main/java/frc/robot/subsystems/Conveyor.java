@@ -26,13 +26,17 @@ public class Conveyor extends SubsystemBase {
         bottomLimit = new DigitalInput(Ports.BOTTOM_LIMIT);
 
     // ball count
-    private double ballCount; 
+    private double ballCount;
+
+    // isShooting
+    private boolean isShooting;
 
     /**
      * Subsystem to control the conveyor of the robot
      */
     public Conveyor() {
         ballCount = 0;
+        isShooting = false;
     }
 
     public void setBeltPower(double power) {
@@ -98,6 +102,14 @@ public class Conveyor extends SubsystemBase {
 
     public double getBallCount() {
         return ballCount;
+    }
+
+    public void setIsShooting(boolean value) {
+        isShooting = value;
+    }
+
+    public boolean getIsShooting() {
+        return isShooting;
     }
 
     @Override

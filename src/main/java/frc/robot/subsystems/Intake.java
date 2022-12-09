@@ -18,8 +18,7 @@ public class Intake extends SubsystemBase {
 
     // solenoids
     private final Solenoid
-        left = new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.INTAKE_LEFT_SOLENOID),
-        right  = new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.INTAKE_RIGHT_SOLENOID);
+        solenoid = new Solenoid(Ports.PCM, PneumaticsModuleType.REVPH, Ports.INTAKE_SOLENOID);
 
     private static final double INTAKE_RATE = 0.5;
 
@@ -34,8 +33,7 @@ public class Intake extends SubsystemBase {
      * Subsystem to control the intake of the robot
      */
     public Intake() {
-        left.set(false);
-        right.set(false);
+        solenoid.set(false);
         state = States.UP;
 
         motor.setOpenLoopRampRate(INTAKE_RATE);
@@ -63,15 +61,13 @@ public class Intake extends SubsystemBase {
 
     public void setIntakeState(States state) {
         if (this.state != state) {
-            left.toggle();
-            right.toggle();
+            solenoid.toggle();
             this.state = state;
         }
     }
 
     public void toggleIntakeState() {
-        left.toggle();
-        right.toggle();
+        solenoid.toggle();
         state = (state == States.UP) ? States.DOWN : States.UP;
     }
 

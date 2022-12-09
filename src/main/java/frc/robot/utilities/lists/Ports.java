@@ -29,6 +29,8 @@ public final class Ports {
         MID_LIMIT = 0,
         TOP_LIMIT = 0,
         INTAKE_MOTOR = 0,
-        INTAKE_LEFT_SOLENOID = 0,
-        INTAKE_RIGHT_SOLENOID = 0;
+        INTAKE_SOLENOID = 0,
+        SHOOTER_MOTOR_MAIN = 0,
+        SHOOTER_MOTOR_FOLLOW = 0,
+        HOOD_SOLENOID = 0;
 }
