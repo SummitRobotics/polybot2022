@@ -76,7 +76,7 @@ public class Shoot extends CommandBase {
                 || conveyor.getState() == Conveyor.State.FULL)
             && simpleIndexButton.get()) {
                 conveyor.setState(Conveyor.State.SHOOTING);
-            }
+        }
     }
 
     @Override
@@ -93,6 +93,7 @@ public class Shoot extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        shooter.setState(State.IDLE);
         return !prioritizedActiveButton.get();
     }
 }
