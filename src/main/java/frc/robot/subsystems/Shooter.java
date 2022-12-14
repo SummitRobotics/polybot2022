@@ -12,15 +12,24 @@ import frc.robot.utilities.lists.Ports;
 
 public class Shooter extends SubsystemBase {
 
+    public enum State {
+        IDLE,
+        SPOOLING,
+        READY_TO_SHOOT,
+    }
+
+    private State state;
+
+    private double targetSpeed;
+
     public static final double
         MAX_RPM = 5000,
+        RPM_TOLERANCE = 50,
         P = 0,
         I = 0,
         D = 0,
         FF = 0,
         IZ = 0;
-
-    private boolean isShooting;
 
     private final CANSparkMax mainMotor =
         new CANSparkMax(Ports.SHOOTER_MOTOR_MAIN, MotorType.kBrushless);
@@ -47,7 +56,9 @@ public class Shooter extends SubsystemBase {
         zeroEncoders();
         hoodSolenoid.set(false);
         followMotor.follow(mainMotor, true);
-        isShooting = false;
+        state = State.IDLE;
+        targetSpeed = 0;
+        pidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity);
     }
 
     public void setMotorPower(double power) {
@@ -66,19 +77,23 @@ public class Shooter extends SubsystemBase {
         encoder.setPosition(position);
     }
 
-    public void setMotorTargetSpeed(double speed) {
-        speed = Functions.clampDouble(speed, MAX_RPM, -MAX_RPM);
+    public void setTargetRPM(double speed) {
+        targetSpeed = Functions.clampDouble(speed, MAX_RPM, -MAX_RPM);
+    }
+
+    public double getTargetRPM() {
+        return targetSpeed;
     }
 
     public double getShooterRPM() {
         return encoder.getVelocity();
     }
 
-    public void setIsShooting(boolean value) {
-        isShooting = value;
+    public void setState(State value) {
+        state = value;
     }
 
-    public boolean getIsShooting() {
-        return isShooting;
+    public State getState() {
+        return state;
     }
 }

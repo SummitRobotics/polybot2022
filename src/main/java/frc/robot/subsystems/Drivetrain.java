@@ -22,4 +22,9 @@ public class Drivetrain extends SubsystemBase {
     public void setRightMotorPower(double power) {
         right.set(Functions.clampDouble(power, 1, -1));
     }
+
+    public void stop() {
+        right.set(0);
+        left.set(0);
+    }
 }

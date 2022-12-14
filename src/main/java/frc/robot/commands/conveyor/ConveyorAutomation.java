@@ -2,29 +2,16 @@ package frc.robot.commands.conveyor;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Conveyor;
+import frc.robot.subsystems.Conveyor.State;
 
 public class ConveyorAutomation extends CommandBase {
-
-    public enum State {
-        FULL,
-        FEED_FORWARD,
-        IDLE,
-        SHOOTING,
-        BACKING_UP,
-    }
 
     private State state;
 
     Conveyor conveyor;
 
-    private double ballCount;
     private boolean bottomLimit, midLimit, topLimit, previousMidLimit, previousTopLimit;
     // private boolean previousBottomLimit;
-
-    private static double
-        BELT_SPEED = 0.75,
-        FUNNEL_SPEED = 0.75,
-        CAPACITY = 5;
 
     public ConveyorAutomation(Conveyor conveyor) {
         this.conveyor = conveyor;
@@ -36,12 +23,7 @@ public class ConveyorAutomation extends CommandBase {
         // previousBottomLimit = conveyor.getBottomLimit();
         previousMidLimit = conveyor.getMidLimit();
         previousTopLimit = conveyor.getTopLimit();
-
-        if (conveyor.getBottomLimit() && conveyor.getMidLimit() && conveyor.getTopLimit()) {
-            ballCount = CAPACITY;
-        } else {
-            throw new RuntimeException("Not enough balls were preloaded!");
-        }
+        state = conveyor.getState();
     }
 
     @Override
@@ -50,35 +32,35 @@ public class ConveyorAutomation extends CommandBase {
         bottomLimit = conveyor.getBottomLimit();
         midLimit = conveyor.getMidLimit();
         topLimit = conveyor.getTopLimit();
+        state = conveyor.getState();
 
         // Update state
-        if (state == State.IDLE && ballCount >= CAPACITY) {
-            state = State.FULL;
+        if (state == State.IDLE && conveyor.getBallCount() >= Conveyor.CAPACITY) {
+            conveyor.setState(State.FULL);
         } else if (state == State.IDLE && bottomLimit) {
-            state = State.FEED_FORWARD;
+            conveyor.setState(State.FEED_FORWARD);
+            conveyor.setBallCount(conveyor.getBallCount() + 1);
         } else if (state == State.FEED_FORWARD && midLimit && !previousMidLimit) {
-            state = State.IDLE;
+            conveyor.setState(State.IDLE);
         } else if (state == State.BACKING_UP && midLimit) {
-            state = State.IDLE;
+            conveyor.setState(State.IDLE);
         } else if (state == State.SHOOTING && !topLimit && previousTopLimit) {
-            state = State.BACKING_UP;
-            conveyor.setIsShooting(false);
-        } else if ((state == State.IDLE || state == State.FULL) && conveyor.getIsShooting()) {
-            state = State.SHOOTING;
+            conveyor.setState(State.BACKING_UP);
+            conveyor.setBallCount(conveyor.getBallCount() - 1);
         }
 
         // Set belt speed
         if (state == State.IDLE || state == State.FULL) {
             conveyor.setBeltPower(0);
         } else if (state == State.FEED_FORWARD || state == State.SHOOTING) {
-            conveyor.setBeltPower(BELT_SPEED);
+            conveyor.setBeltPower(Conveyor.BELT_SPEED);
         } else if (state == State.BACKING_UP) {
-            conveyor.setBeltPower(-BELT_SPEED);
+            conveyor.setBeltPower(-Conveyor.BELT_SPEED);
         }
 
         // Set funnel speed
         if (state == State.IDLE) {
-            conveyor.setFunnelPower(FUNNEL_SPEED);
+            conveyor.setFunnelPower(Conveyor.FUNNEL_SPEED);
         } else {
             conveyor.setFunnelPower(0);
         }
@@ -86,7 +68,6 @@ public class ConveyorAutomation extends CommandBase {
         previousTopLimit = topLimit;
         previousMidLimit = midLimit;
         // previousBottomLimit = bottomLimit;
-        conveyor.setBallCount(ballCount);
     }
 
     @Override

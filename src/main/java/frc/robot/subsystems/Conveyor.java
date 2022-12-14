@@ -9,6 +9,26 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utilities.lists.Ports;
 
 public class Conveyor extends SubsystemBase {
+
+    public static double
+        BELT_SPEED = 0.75,
+        FUNNEL_SPEED = 0.75,
+        CAPACITY = 5;
+
+    // state
+    public enum State {
+        FULL,
+        FEED_FORWARD,
+        IDLE,
+        SHOOTING,
+        BACKING_UP,
+    }
+
+    private State state;
+
+    // ball count
+    private double ballCount;
+
     // motors
     private final CANSparkMax
         belt = new CANSparkMax(Ports.CONVEYOR_BELT, MotorType.kBrushless), 
@@ -25,18 +45,16 @@ public class Conveyor extends SubsystemBase {
         midLimit = new DigitalInput(Ports.MID_LIMIT),
         bottomLimit = new DigitalInput(Ports.BOTTOM_LIMIT);
 
-    // ball count
-    private double ballCount;
-
-    // isShooting
-    private boolean isShooting;
-
     /**
      * Subsystem to control the conveyor of the robot
      */
     public Conveyor() {
-        ballCount = 0;
-        isShooting = false;
+        if (getBottomLimit() && getMidLimit() && getTopLimit()) {
+            ballCount = CAPACITY;
+            state = State.FULL;
+        } else {
+            throw new RuntimeException("Not enough balls were preloaded!");
+        }
     }
 
     public void setBeltPower(double power) {
@@ -104,12 +122,12 @@ public class Conveyor extends SubsystemBase {
         return ballCount;
     }
 
-    public void setIsShooting(boolean value) {
-        isShooting = value;
+    public void setState(State value) {
+        state = value;
     }
 
-    public boolean getIsShooting() {
-        return isShooting;
+    public State getState() {
+        return state;
     }
 
     @Override
