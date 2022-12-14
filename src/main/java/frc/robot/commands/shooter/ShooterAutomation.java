@@ -40,10 +40,9 @@ public class ShooterAutomation extends CommandBase {
         // set target speed based on shooter state
         if (state == State.IDLE && shooter.getTargetRPM() != 0) {
             shooter.setTargetRPM(0);
-        } else if ((state == State.SPOOLING || state == State.READY_TO_SHOOT)
-            && shooter.getTargetRPM() != Shooter.MAX_RPM / 2) {
-            shooter.setTargetRPM(Shooter.MAX_RPM / 2);
         }
+        
+        shooter.spoolToSpeed();
     }
     
     @Override

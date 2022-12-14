@@ -63,11 +63,20 @@ public class Shoot extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrain.setLeftMotorPower(turnAxis.get());
-        drivetrain.setLeftMotorPower(-turnAxis.get());
+        drivetrain.setLeftMotorPower(prioritizedTurnAxis.get());
+        drivetrain.setLeftMotorPower(-prioritizedTurnAxis.get());
+        shooter.setTargetRPM(prioritizedSpeedAxis.get());
 
-        
-        
+        // We never want to be idle when this command is running
+        if (shooter.getState() == State.IDLE) shooter.setState(State.SPOOLING);
+
+        // Tell the conveyor to index a ball when the conditions are right
+        if (shooter.getState() == State.READY_TO_SHOOT
+            && (conveyor.getState() == Conveyor.State.IDLE
+                || conveyor.getState() == Conveyor.State.FULL)
+            && simpleIndexButton.get()) {
+                conveyor.setState(Conveyor.State.SHOOTING);
+            }
     }
 
     @Override

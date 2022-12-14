@@ -81,6 +81,10 @@ public class Shooter extends SubsystemBase {
         targetSpeed = Functions.clampDouble(speed, MAX_RPM, -MAX_RPM);
     }
 
+    public void spoolToSpeed() {
+        pidController.setReference(targetSpeed, CANSparkMax.ControlType.kVelocity);
+    }
+
     public double getTargetRPM() {
         return targetSpeed;
     }
