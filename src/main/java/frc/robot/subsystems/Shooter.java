@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -20,6 +19,8 @@ public class Shooter extends SubsystemBase {
         D = 0,
         FF = 0,
         IZ = 0;
+
+    private boolean isShooting;
 
     private final CANSparkMax mainMotor =
         new CANSparkMax(Ports.SHOOTER_MOTOR_MAIN, MotorType.kBrushless);
@@ -46,6 +47,7 @@ public class Shooter extends SubsystemBase {
         zeroEncoders();
         hoodSolenoid.set(false);
         followMotor.follow(mainMotor, true);
+        isShooting = false;
     }
 
     public void setMotorPower(double power) {
@@ -70,5 +72,13 @@ public class Shooter extends SubsystemBase {
 
     public double getShooterRPM() {
         return encoder.getVelocity();
+    }
+
+    public void setIsShooting(boolean value) {
+        isShooting = value;
+    }
+
+    public boolean getIsShooting() {
+        return isShooting;
     }
 }
