@@ -19,11 +19,11 @@ public class Shoot extends CommandBase {
     OIButton.PrioritizedButton prioritizedIndexButton;
     SimpleButton simpleIndexButton;
 
-    OIButton activeButton;
-    OIButton.PrioritizedButton prioritizedActiveButton;
+    // OIButton activeButton;
+    // OIButton.PrioritizedButton prioritizedActiveButton;
 
-    // OIAxis turnAxis;
-    // OIAxis.PrioritizedAxis prioritizedTurnAxis;
+    OIAxis turnAxis;
+    OIAxis.PrioritizedAxis prioritizedTurnAxis;
 
     OIAxis speedAxis;
     OIAxis.PrioritizedAxis prioritizedSpeedAxis;
@@ -33,16 +33,16 @@ public class Shoot extends CommandBase {
         Conveyor conveyor,
         Drivetrain drivetrain,
         OIButton indexButton,
-        OIButton activeButton,
-        // OIAxis turnAxis,
+        // OIButton activeButton,
+        OIAxis turnAxis,
         OIAxis speedAxis) {
 
         this.shooter = shooter;
         this.conveyor = conveyor;
         this.drivetrain = drivetrain;
         this.indexButton = indexButton;
-        this.activeButton = activeButton;
-        // this.turnAxis = turnAxis;
+        // this.activeButton = activeButton;
+        this.turnAxis = turnAxis;
 
         // addRequirements(shooter, conveyor, drivetrain);
     }
@@ -51,10 +51,10 @@ public class Shoot extends CommandBase {
     public void initialize() {
 
         // set up buttons and axes
-        // prioritizedTurnAxis = turnAxis.prioritize(8);
+        prioritizedTurnAxis = turnAxis.prioritize(8);
         prioritizedSpeedAxis = speedAxis.prioritize(8);
         prioritizedIndexButton = indexButton.prioritize(8);
-        prioritizedActiveButton = activeButton.prioritize(8);
+        // prioritizedActiveButton = activeButton.prioritize(8);
         simpleIndexButton = new SimpleButton(prioritizedIndexButton::get);
 
         // start motor spooling
@@ -63,8 +63,8 @@ public class Shoot extends CommandBase {
 
     @Override
     public void execute() {
-        // drivetrain.setLeftMotorPower(prioritizedTurnAxis.get());
-        // drivetrain.setRightMotorPower(-prioritizedTurnAxis.get());
+        drivetrain.setLeftMotorPower(prioritizedTurnAxis.get());
+        drivetrain.setRightMotorPower(-prioritizedTurnAxis.get());
         shooter.setTargetRPM(Shooter.MAX_RPM * (prioritizedSpeedAxis.get() + 1) / 2);
 
         // We never want to be idle when this command is running
@@ -85,15 +85,16 @@ public class Shoot extends CommandBase {
         conveyor.stop();
         shooter.stop();
         simpleIndexButton = null;
-        // prioritizedTurnAxis.destroy();
+        prioritizedTurnAxis.destroy();
         prioritizedSpeedAxis.destroy();
-        prioritizedActiveButton.destroy();
+        // prioritizedActiveButton.destroy();
         prioritizedIndexButton.destroy();
         shooter.setState(State.IDLE);
     }
 
     @Override
     public boolean isFinished() {
-        return !prioritizedActiveButton.get();
+        // return !prioritizedActiveButton.get();
+        return false;
     }
 }

@@ -13,9 +13,12 @@ import frc.robot.commands.conveyor.ConveyorAutomation;
 // import frc.robot.commands.coneGrabber.ConeGrabberMO;
 import frc.robot.commands.drivetrain.ArcadeDrive;
 import frc.robot.commands.intake.IntakeAutomation;
+import frc.robot.commands.shooter.Shoot;
+import frc.robot.commands.shooter.ShooterAutomation;
 import frc.robot.devices.PCM;
 // import frc.robot.devices.Lemonlight;
 import frc.robot.oi.drivers.ControllerDriver;
+import frc.robot.oi.drivers.JoystickDriver;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -45,6 +48,7 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   // private final ConeGrabberMO coneGrabberMO;
   private final ControllerDriver controller;
+  private final JoystickDriver joystick;
   private final PCM pcm;
   // private final Lemonlight limelight;
 
@@ -55,6 +59,7 @@ public class RobotContainer {
 
     scheduler = CommandScheduler.getInstance();
     controller = new ControllerDriver(Ports.CONTROLLER);
+    joystick = new JoystickDriver(Ports.JOYSTICK);
     drivetrain = new Drivetrain();
     conveyor = new Conveyor();
     intake = new Intake();
@@ -81,12 +86,16 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // controller.buttonX.whileHeld(new FullAutoconeGrabber(drivetrain, coneGrabber, limelight));
+    controller.buttonX.whileHeld(
+        new Shoot(shooter, conveyor, drivetrain, joystick.trigger, joystick.axisY, joystick.axisZ));
+    controller.buttonY.whenPressed(new InstantCommand(() -> intake.toggleIntakeState()));
   }
 
   private void setDefaultCommands() {
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, controller.leftX, controller.leftY));
     conveyor.setDefaultCommand(new ConveyorAutomation(conveyor));
     intake.setDefaultCommand(new IntakeAutomation(intake));
+    shooter.setDefaultCommand(new ShooterAutomation(shooter));
     // coneGrabber.setDefaultCommand(coneGrabberMO);
   }
 
