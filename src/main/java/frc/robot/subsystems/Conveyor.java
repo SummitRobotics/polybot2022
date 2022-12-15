@@ -130,6 +130,20 @@ public class Conveyor extends SubsystemBase {
         return state;
     }
 
+    public String getStateAsString() {
+        if (state == State.FULL) {
+            return "Full";
+        } else if (state == State.FEED_FORWARD) {
+            return "Feed Forward";
+        } else if (state == State.IDLE) {
+            return "Idle";
+        } else if (state == State.SHOOTING) {
+            return "Shooting";
+        } else {
+            return "Backing Up";
+        }
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         builder.setSmartDashboardType("conveyor");
@@ -137,5 +151,6 @@ public class Conveyor extends SubsystemBase {
         builder.addBooleanProperty("mid_limit", this::getMidLimit, null);
         builder.addBooleanProperty("bottom_limit", this::getBottomLimit, null);
         builder.addDoubleProperty("number_of_balls", this::getBallCount, null);
+        builder.addStringProperty("state", this::getStateAsString, null);
     }
 }

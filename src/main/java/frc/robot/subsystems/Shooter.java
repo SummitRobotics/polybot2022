@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -99,5 +100,21 @@ public class Shooter extends SubsystemBase {
 
     public State getState() {
         return state;
+    }
+
+    public String getStateAsString() {
+        if (state == State.IDLE) {
+            return "Idle";
+        } else if (state == State.SPOOLING) {
+            return "Spooling";
+        } else {
+            return "Ready to Shoot";
+        }
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("shooter");
+        builder.addStringProperty("state", this::getStateAsString, null);
     }
 }

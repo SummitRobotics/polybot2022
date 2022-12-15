@@ -20,6 +20,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 // import frc.robot.subsystems.ConeGrabber;
 import frc.robot.utilities.lists.Ports;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,6 +40,7 @@ public class RobotContainer {
   private final Drivetrain drivetrain;
   private final Conveyor conveyor;
   private final Intake intake;
+  private final Shooter shooter;
   // private final ConeGrabber coneGrabber;
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   // private final ConeGrabberMO coneGrabberMO;
@@ -56,6 +58,7 @@ public class RobotContainer {
     drivetrain = new Drivetrain();
     conveyor = new Conveyor();
     intake = new Intake();
+    shooter = new Shooter();
     // coneGrabber = new ConeGrabber();
     // coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
     pcm = new PCM();

@@ -2,7 +2,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Intake.States;
+import frc.robot.subsystems.Intake.State;
 
 public class IntakeAutomation extends CommandBase {
     Intake intake;
@@ -16,7 +16,7 @@ public class IntakeAutomation extends CommandBase {
 
     @Override
     public void execute() {
-        intake.setMotorPower((intake.getState() == States.UP) ? INTAKE_SPEED : 0);
+        intake.setMotorPower((intake.getState() == State.UP) ? INTAKE_SPEED : 0);
     }
 
     @Override

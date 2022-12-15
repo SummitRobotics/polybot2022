@@ -22,19 +22,19 @@ public class Intake extends SubsystemBase {
 
     private static final double INTAKE_RATE = 0.5;
 
-    public enum States {
+    public enum State {
         UP,
         DOWN
     }
 
-    private States state;
+    private State state;
 
     /**
      * Subsystem to control the intake of the robot
      */
     public Intake() {
         solenoid.set(false);
-        state = States.UP;
+        state = State.UP;
 
         motor.setOpenLoopRampRate(INTAKE_RATE);
     }
@@ -59,7 +59,7 @@ public class Intake extends SubsystemBase {
         motor.stopMotor();
     }
 
-    public void setIntakeState(States state) {
+    public void setIntakeState(State state) {
         if (this.state != state) {
             solenoid.toggle();
             this.state = state;
@@ -68,15 +68,15 @@ public class Intake extends SubsystemBase {
 
     public void toggleIntakeState() {
         solenoid.toggle();
-        state = (state == States.UP) ? States.DOWN : States.UP;
+        state = (state == State.UP) ? State.DOWN : State.UP;
     }
 
-    public States getState() {
+    public State getState() {
         return state;
     }
 
     public String getStateAsString() {
-        return (state == States.UP) ? "Up" : "Down";
+        return (state == State.UP) ? "Up" : "Down";
     }
 
     @Override
