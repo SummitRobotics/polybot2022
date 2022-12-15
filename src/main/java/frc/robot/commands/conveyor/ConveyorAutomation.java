@@ -42,7 +42,7 @@ public class ConveyorAutomation extends CommandBase {
             conveyor.setBallCount(conveyor.getBallCount() + 1);
         } else if (state == State.FEED_FORWARD && midLimit && !previousMidLimit) {
             conveyor.setState(State.IDLE);
-        } else if (state == State.BACKING_UP && midLimit) {
+        } else if (state == State.BACKING_UP && (midLimit || conveyor.getBallCount() == 0)) {
             conveyor.setState(State.IDLE);
         } else if (state == State.SHOOTING && !topLimit && previousTopLimit) {
             conveyor.setState(State.BACKING_UP);
