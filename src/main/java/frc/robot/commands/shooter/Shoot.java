@@ -64,8 +64,8 @@ public class Shoot extends CommandBase {
     @Override
     public void execute() {
         drivetrain.setLeftMotorPower(prioritizedTurnAxis.get());
-        drivetrain.setLeftMotorPower(-prioritizedTurnAxis.get());
-        shooter.setTargetRPM(prioritizedSpeedAxis.get());
+        drivetrain.setRightMotorPower(-prioritizedTurnAxis.get());
+        shooter.setTargetRPM(Shooter.MAX_RPM * (prioritizedSpeedAxis.get() + 1) / 2);
 
         // We never want to be idle when this command is running
         if (shooter.getState() == State.IDLE) shooter.setState(State.SPOOLING);
