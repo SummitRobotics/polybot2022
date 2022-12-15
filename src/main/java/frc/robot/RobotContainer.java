@@ -36,87 +36,87 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 
-  private final CommandScheduler scheduler;
+	private final CommandScheduler scheduler;
 
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Drivetrain drivetrain;
-  private final Conveyor conveyor;
-  private final Intake intake;
-  private final Shooter shooter;
-  // private final ConeGrabber coneGrabber;
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  // private final ConeGrabberMO coneGrabberMO;
-  private final ControllerDriver controller;
-  private final JoystickDriver joystick;
-  private final PCM pcm;
-  // private final Lemonlight limelight;
+	// The robot's subsystems and commands are defined here...
+	private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+	private final Drivetrain drivetrain;
+	private final Conveyor conveyor;
+	private final Intake intake;
+	private final Shooter shooter;
+	// private final ConeGrabber coneGrabber;
+	private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+	// private final ConeGrabberMO coneGrabberMO;
+	private final ControllerDriver controller;
+	private final JoystickDriver joystick;
+	private final PCM pcm;
+	// private final Lemonlight limelight;
 
-  private final Command teleInit;
+	private final Command teleInit;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
+	/** The container for the robot. Contains subsystems, OI devices, and commands. */
+	public RobotContainer() {
 
-    scheduler = CommandScheduler.getInstance();
-    controller = new ControllerDriver(Ports.CONTROLLER);
-    joystick = new JoystickDriver(Ports.JOYSTICK);
-    drivetrain = new Drivetrain();
-    conveyor = new Conveyor();
-    intake = new Intake();
-    shooter = new Shooter();
-    // coneGrabber = new ConeGrabber();
-    // coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
-    pcm = new PCM();
-    // limelight = new Lemonlight("limelight", true, true);
-    // Configure the button bindings
-    configureButtonBindings();
-    setDefaultCommands();
+		scheduler = CommandScheduler.getInstance();
+		controller = new ControllerDriver(Ports.CONTROLLER);
+		joystick = new JoystickDriver(Ports.JOYSTICK);
+		drivetrain = new Drivetrain();
+		conveyor = new Conveyor();
+		intake = new Intake();
+		shooter = new Shooter();
+		// coneGrabber = new ConeGrabber();
+		// coneGrabberMO = new ConeGrabberMO(coneGrabber, controller.buttonA, controller.buttonB);
+		pcm = new PCM();
+		// limelight = new Lemonlight("limelight", true, true);
+		// Configure the button bindings
+		configureButtonBindings();
+		setDefaultCommands();
 
-    teleInit = new SequentialCommandGroup(
-      // new InstantCommand(() -> pcm.enableCompressorDigital()),
-      new InstantCommand(() -> initTelemetry())
-    );
-  }
+		teleInit = new SequentialCommandGroup(
+			// new InstantCommand(() -> pcm.enableCompressorDigital()),
+			new InstantCommand(() -> initTelemetry())
+		);
+	}
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    // controller.buttonX.whileHeld(new FullAutoconeGrabber(drivetrain, coneGrabber, limelight));
-    controller.buttonX.whileHeld(
-        new Shoot(shooter, conveyor, drivetrain, joystick.trigger, joystick.axisY, joystick.axisZ));
-    controller.buttonY.whenPressed(new InstantCommand(() -> intake.toggleIntakeState()));
-  }
+	/**
+	 * Use this method to define your button->command mappings. Buttons can be created by
+	 * instantiating a {@link GenericHID} or one of its subclasses ({@link
+	 * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+	 * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+	 */
+	private void configureButtonBindings() {
+		// controller.buttonX.whileHeld(new FullAutoconeGrabber(drivetrain, coneGrabber, limelight));
+		controller.buttonX.whileHeld(
+			new Shoot(shooter, conveyor, drivetrain, joystick.trigger, joystick.axisY, joystick.axisZ));
+		controller.buttonY.whenPressed(new InstantCommand(() -> intake.toggleIntakeState()));
+	}
 
-  private void setDefaultCommands() {
-    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, controller.leftX, controller.leftY));
-    conveyor.setDefaultCommand(new ConveyorAutomation(conveyor));
-    intake.setDefaultCommand(new IntakeAutomation(intake));
-    shooter.setDefaultCommand(new ShooterAutomation(shooter));
-    // coneGrabber.setDefaultCommand(coneGrabberMO);
-  }
+	private void setDefaultCommands() {
+		drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, controller.leftX, controller.leftY));
+		conveyor.setDefaultCommand(new ConveyorAutomation(conveyor));
+		intake.setDefaultCommand(new IntakeAutomation(intake));
+		shooter.setDefaultCommand(new ShooterAutomation(shooter));
+		// coneGrabber.setDefaultCommand(coneGrabberMO);
+	}
 
-  /**
-   * Runs when the robot initializes in teleop mode
-   */
-  public void teleopInit() {
-    scheduler.schedule(teleInit);
-  }
+	/**
+	 * Runs when the robot initializes in teleop mode
+	 */
+	public void teleopInit() {
+		scheduler.schedule(teleInit);
+	}
 
-  public void initTelemetry() {
-    SmartDashboard.putData("PCM", pcm);
-  }
+	public void initTelemetry() {
+		SmartDashboard.putData("PCM", pcm);
+	}
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+	/**
+	 * Use this to pass the autonomous command to the main {@link Robot} class.
+	 *
+	 * @return the command to run in autonomous
+	 */
+	public Command getAutonomousCommand() {
+		// An ExampleCommand will run in autonomous
+		return m_autoCommand;
+	}
 }
